@@ -1,5 +1,23 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
-}
+const APIURL = "https://api.studio.thegraph.com/query/8916/nfttest/0.1";
+
+export const tokensQuery = `
+  query {
+    tokens (
+      orderDirection: desc
+      orderBy: createdAtTimestamp
+      first: 5
+    ) {
+      id
+      tokenID
+      contentURI
+      metadataURI
+    }
+  }
+`;
+
+export const client = new ApolloClient({
+  uri: APIURL,
+  cache: new InMemoryCache(),
+});
